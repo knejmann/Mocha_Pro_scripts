@@ -1,9 +1,10 @@
 from mocha import ui
+from PySide2.QtWidgets import QAction, QMenuBar # not strictly nesessary, but helps pylance when editing in VSCode
 
 mocha_widget = ui.get_widgets()
 main_window = mocha_widget["MainWindow"]
 # grab all widgets (application is globally defined inside mocha)
-widgets = application.allWidgets()
+widgets = ui.application.allWidgets()
 
 mocha_menubar = list(filter(lambda wgt: isinstance(wgt, QMenuBar), widgets))[0]
 scripts_menu = mocha_menubar.addMenu('Scripts') #create a new Scripts menu option
