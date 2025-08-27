@@ -1,6 +1,20 @@
 import mocha.project as mp
 import os
 
+""" This script exports rendered shapes to png sequences
+for either all visible layers or for all groups in the project.
+
+If groups exist in the project, each group will be exported separately with 
+the group name appended to the exported files.
+
+If no groups exist, all visible layers will be exported as a png sequence with '_all'
+appended to the exported files.
+
+File name allways starts with the project name.
+The exported files are saved in a folder named 'savedMattes' one level above the project file location.
+
+"""
+
 def has_groups():
     proj = mp.get_current_project()
     if len(proj.groups) == 0:
@@ -37,7 +51,7 @@ def export_rendered_shapes_for_groups():
         # Eksporter rendered shapes
         proj.export_rendered_shapes(
             layers,
-            mp.ColorizeOutput.Grayscale,  # Eksporter som gråskala
+            mp.ColorizeOutput.Grayscale,  # Eksport as grayscale
             save_path,
             ".png",  # Eksporter som MP4
             save_name,
@@ -79,9 +93,9 @@ def export_rendered_shapes():
         # Eksporter rendered shapes
     proj.export_rendered_shapes(
         vis_layers,
-        mp.ColorizeOutput.Grayscale,  # Eksporter som gråskala
+        mp.ColorizeOutput.Grayscale,  # Export as grayscale
         save_path,
-        ".png",  # Eksporter som MP4
+        ".png",
         save_name+"_",
         "",
         proj.in_out_range[0],
