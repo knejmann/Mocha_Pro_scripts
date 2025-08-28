@@ -15,10 +15,12 @@ The exported files are saved in a folder named 'savedMattes' one level above the
 
 """
 
+
 def has_groups():
     proj = mp.get_current_project()
     if len(proj.groups) == 0:
-        return(False)
+        return False
+
 
 def export_rendered_shapes_for_groups():
     # Hent det aktuelle projekt
@@ -46,7 +48,9 @@ def export_rendered_shapes_for_groups():
         layers = group.layers
         layernames = [layer.name for layer in layers]
 
-        print(f"  Eksporterer lagene: {layernames}\n  frames: {proj.in_out_range}\n  filnavn: {save_name}\n  i: {save_path}")
+        print(
+            f"  Eksporterer lagene: {layernames}\n  frames: {proj.in_out_range}\n  filnavn: {save_name}\n  i: {save_path}"
+        )
 
         # Eksporter rendered shapes
         proj.export_rendered_shapes(
@@ -58,10 +62,12 @@ def export_rendered_shapes_for_groups():
             "",
             proj.in_out_range[0],
             proj.in_out_range[1],
-            5
+            index_width=5,
+            offset=proj.in_out_range[0],
         )
 
         print(f"Eksporteret: {save_name}\n")
+
 
 def export_rendered_shapes():
     # Hent det aktuelle projekt
@@ -77,7 +83,6 @@ def export_rendered_shapes():
     save_name = f"{project_name}_alle"
     save_path = os.path.join(save_dir, save_name)
 
-    
     vis_layers = []
     layer_list = proj.layers
 
@@ -88,24 +93,44 @@ def export_rendered_shapes():
 
     layernames = [layer.name for layer in vis_layers]
 
-    print(f"  Eksporterer lagene: {layernames}\n  frames: {proj.in_out_range}\n  filnavn: {save_name}\n  i: {save_path}")
+    print(
+        f"  Eksporterer lagene: {layernames}\n  frames: {proj.in_out_range}\n  filnavn: {save_name}\n  i: {save_path}"
+    )
 
-        # Eksporter rendered shapes
+    # Eksporter rendered shapes
     proj.export_rendered_shapes(
         vis_layers,
         mp.ColorizeOutput.Grayscale,  # Export as grayscale
         save_path,
         ".png",
-        save_name+"_",
+        save_name + "_",
         "",
         proj.in_out_range[0],
         proj.in_out_range[1],
         index_width=5,
-        offset=proj.in_out_range[0]
+        offset=proj.in_out_range[0],
     )
 
+    """ 
+    help:
+    export_rendered_shapes(self, 
+        layers: typing.List[mocha.project.Layer],
+        colorizeOutput: mocha.project.ColorizeOutput, 
+        directory: str, 
+        extension: str, 
+        prefix: str, 
+        suffix: str, 
+        index_start: int, 
+        index_finish: int, 
+        index_width: int = 1, 
+        views: typing.List[mocha.project.View] = Default(QVector< View >), 
+        separate_streams: bool = False, offset: int = 0
+    ) -> mocha.project.Clip method of mocha.project.Project instance
+    """
+
     print(f"Eksporteret: {save_name}\n")
-        
+
+
 def render_shapes():
     if has_groups():
         print("Har group")
@@ -113,3 +138,7 @@ def render_shapes():
     else:
         print("Har ikke group")
         export_rendered_shapes()
+
+
+if __name__ == "__main__":
+    render_shapes()
